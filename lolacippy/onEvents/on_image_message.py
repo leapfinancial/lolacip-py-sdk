@@ -4,7 +4,7 @@ from ..cip.cip_Bussines_Rules import Cip
 from ..cip.cip_Utils import CipUtils
 from ..messages_config import MessagesConfig
 from lolakrakenpy import LolaKrakenServicesManager
-from assitant.onEvents.util_events import UtilEvents
+from .util_events import UtilEvents
 
 class OnImageMessage:
     def __init__(self,lola_kraken:LolaKrakenServicesManager,config):

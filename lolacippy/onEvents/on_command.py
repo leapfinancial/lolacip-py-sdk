@@ -1,8 +1,8 @@
 from lolapy import LolaContext
 from lolakrakenpy import LolaKrakenServicesManager
-from assitant.onEvents.on_image_message import OnImageMessage
-from assitant.onEvents.util_events import UtilEvents
-from assitant.messages_config import MessagesConfig
+from .on_image_message import OnImageMessage
+from .util_events import UtilEvents
+from messages_config import MessagesConfig
 class OnCommand:
     def __init__(self,lola_kraken:LolaKrakenServicesManager,config):
         self.lola_kraken = lola_kraken
