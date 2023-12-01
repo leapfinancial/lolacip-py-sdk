@@ -1,0 +1,4 @@
+lolapy @ git+https://github.com/alejamp/lola-py-sdk
+lolakrakenpy @ git+https://github.com/leapfinancial/Lolav2Kraken-py-sdk@dev
+python-dotenv>=1.0.0
+requests
