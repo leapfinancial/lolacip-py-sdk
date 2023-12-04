@@ -1,8 +1,7 @@
 from lolapy import LolaContext
 from lolakrakenpy import LolaKrakenServicesManager
-from .on_image_message import OnImageMessage
 from .util_events import UtilEvents
-from messages_config import MessagesConfig
+from ..messages_config import MessagesConfig
 class OnCommand:
     def __init__(self,lola_kraken:LolaKrakenServicesManager,config):
         self.lola_kraken = lola_kraken
@@ -10,7 +9,7 @@ class OnCommand:
         self.utilEvents = UtilEvents(lola_kraken,config)
         self.lola_messages = MessagesConfig(config)
     
-    def comandValidateAddress(self,session,ctx:LolaContext,cmd,events_onImageMessage:OnImageMessage):
+    def comandValidateAddress(self,session,ctx:LolaContext,cmd):
         state = ctx.state.get()
         profile = state["profile"]
         requestAddress = profile.get("request_address",False)

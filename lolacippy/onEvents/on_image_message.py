@@ -44,6 +44,7 @@ class OnImageMessage:
 
                     
                 state["profile"] = profile
+                ctx.state.set(state)
                     
                 resultFaceCrop = self.lola_cip_Bussines.faceCrop(session, url)
                 face = resultFaceCrop["results"]["face"]

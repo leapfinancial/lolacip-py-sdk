@@ -2,4 +2,4 @@
 Sdk python de lolacip
 
 local test
-pip install /Users/jorgetrujillo/Documents/Trabajo/lolaCip-py-sdk 
+pip3 install /Users/jorgetrujillo/Documents/Trabajo/lolaCip-py-sdk 
