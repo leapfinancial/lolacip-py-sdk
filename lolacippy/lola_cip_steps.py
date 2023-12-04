@@ -58,10 +58,10 @@ class LolaCipSteps:
                     facematch = self.notifications.onProofOfLife(session,ctx,iproovLastFrame,iproovData)
                     messageFacematch = str(facematch["message"])
                     return messageFacematch
-                    ctx.messanger.send_text_message(messageFacematch, blend=True,appendToHistory=True)
+                    
                 except Exception as error:
                     print(error)
                     return str(error)
-                    ctx.messanger.send_text_message(str(error), blend=True,appendToHistory=True)
+                    
     def commandAddress(self,session,ctx:LolaContext,cmd):
         return self.events_onCommand.comandValidateAddress(session=session,ctx=ctx,cmd=cmd)
