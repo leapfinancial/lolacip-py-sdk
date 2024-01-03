@@ -62,7 +62,7 @@ class LolaCipSteps:
                 except Exception as error:
                     print(error)
                     return str(error)
-    def stepNotDefined(self,session,ctx:LolaContext,Url:str,msg):
+    def default(self,session,ctx:LolaContext,Url:str,msg):
         result = {
             "message" : self.lola_messages.getImageNotValidMessage()
         }
