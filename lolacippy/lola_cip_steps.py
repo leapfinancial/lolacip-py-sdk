@@ -34,11 +34,11 @@ class LolaCipSteps:
         
         
         
-    def scanId(self,session,ctx:LolaContext,scanIdUrl:str):
-        resulScanId = self.events_onImageMessage.onboardingScanId(session=session,ctx=ctx,url=scanIdUrl)
+    def scanId(self,session,ctx:LolaContext,Url:str,msg):
+        resulScanId = self.events_onImageMessage.onboardingScanId(session=session,ctx=ctx,url=Url)
         return resulScanId
-    def selfie(self,session,ctx:LolaContext,selfieUrl:str):
-        resultSelfie = self.events_onImageMessage.onboardingScanSelfie(session=session,ctx=ctx,url=selfieUrl)
+    def selfie(self,session,ctx:LolaContext,Url:str,msg):
+        resultSelfie = self.events_onImageMessage.onboardingScanSelfie(session=session,ctx=ctx,url=Url)
         completeCipMessage = self.lola_messages.getCompleteCipMessage()
         resultProccesSelfie = {
             "resultSelfie" : resultSelfie,
@@ -46,7 +46,7 @@ class LolaCipSteps:
         }
         
         return resultProccesSelfie
-    def PooLife(self,session,ctx:LolaContext,msg):
+    def PooLife(self,session,ctx:LolaContext,Url:str,msg):
         eventsData = msg['data']['data']
         typeEvent = eventsData['type']
         if typeEvent == "response":
@@ -62,6 +62,10 @@ class LolaCipSteps:
                 except Exception as error:
                     print(error)
                     return str(error)
-                    
+    def stepNotDefined(self,session,ctx:LolaContext,Url:str,msg):
+        result = {
+            "message" : self.lola_messages.getImageNotValidMessage()
+        }
+        return result   
     def commandAddress(self,session,ctx:LolaContext,cmd):
         return self.events_onCommand.comandValidateAddress(session=session,ctx=ctx,cmd=cmd)
