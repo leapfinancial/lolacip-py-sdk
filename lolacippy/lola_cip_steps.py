@@ -31,11 +31,11 @@ class LolaCipSteps:
            
         
         
-    @classmethod
-    def getInstance(cls, lola_kraken: LolaKrakenServicesManager=None, lola_sdk: LolaSDK=None, config=None):
-        if cls._instance is None:
-            cls._instance = LolaCipSteps(lola_kraken, lola_sdk, config)
-        return cls._instance
+    @staticmethod
+    def getInstance():
+        if not LolaCipSteps._instance:
+            raise Exception("LolaCipSteps not initialized")
+        return LolaCipSteps._instance
     @classmethod  
     def initAssitantCip(cls,session,ctx:LolaContext):
         cls._instance.newConversation.initAssitant(session=session,ctx=ctx)
