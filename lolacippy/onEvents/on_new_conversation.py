@@ -17,7 +17,13 @@ class OnNewConversation:
         state = ctx.state.get()
                 #profile init
         profile = self.init_assitant.getInitProfile()
-        state["profile"] = profile
+        stateprofile = state["profile"]
+        # unir profile y stateprofile
+        if stateprofile is not None:
+            profile.update(stateprofile)
+            state["profile"] = profile
+        else:
+            state["profile"] = profile
                 #allowed documents
         allowed_documents = self.init_assitant.getInitAllowedDocuments()
         state["allowed_documents"] = allowed_documents
