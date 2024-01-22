@@ -28,9 +28,10 @@ class OnImageMessage:
         try:
             state = ctx.state.get()
             profile = state["profile"]
+            validate_document = profile.get("validate_document",True)
             checkImageMessage = self.lola_messages.getCheckImageMessage()
             ctx.messanger.send_text_message(checkImageMessage, blend=True,appendToHistory=True)
-            resultScanId = self.lola_cip_Bussines.scanId(session, url)
+            resultScanId = self.lola_cip_Bussines.scanId(session, url,validate_document)
             if resultScanId:
             
                 ocrData = resultScanId['ocrData']
@@ -55,7 +56,7 @@ class OnImageMessage:
                 if self.validate_Adrress:
                     address = ocrData.get("address", None)
                     if address == None:
-                        profile["flow_step"] = "scanId"
+                        profile["flow_step"] = "ScanId"
                         profile["request_address"] = True
                         state["profile"] = profile
                         ctx.state.set(state)
