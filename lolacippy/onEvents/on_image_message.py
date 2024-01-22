@@ -58,6 +58,7 @@ class OnImageMessage:
                     address = ocrData.get("address", None)
                     if address == None:
                         profile["flow_step"] = "ScanId"
+                        state["ocrData"] = ocrData
                         profile["request_address"] = True
                         state["profile"] = profile
                         ctx.state.set(state)
