@@ -26,9 +26,10 @@ class Cip:
         self.develoment:bool = develoment
         self.url_return = config.get("return_url","https://www.google.com")
         
+        
         self.cipMessagesConfig = MessagesConfig(config)
                 
-    def scanId(self,sesion,url:str):
+    def scanId(self,sesion,url:str,validateDocument:bool = True):
         self.lola_kraken.start(sesion)
             
         try:
@@ -37,15 +38,17 @@ class Cip:
             expDate = ocrData['ExpDate']            
             IsimageManipulation = orcResult['IsimageManipulation']
             IsValidID = orcResult['IsValidID']
+            
             documentValidate = self.cipUtils.documentExpirate(expDate)
-            if not IsValidID:
-                isNotValidDocumentMessage = self.cipMessagesConfig.getImageNotValidMessage()
-                print('The document is not valid') 
-                raise ValueError(isNotValidDocumentMessage)
-            if IsimageManipulation:
-                IsimageManipulationMessage = self.cipMessagesConfig.getImageManipulationMessage()
-                print('The image is manipulated') 
-                raise ValueError(IsimageManipulationMessage)
+            if validateDocument:
+                if not IsValidID:
+                    isNotValidDocumentMessage = self.cipMessagesConfig.getImageNotValidMessage()
+                    print('The document is not valid') 
+                    raise ValueError(isNotValidDocumentMessage)
+                if IsimageManipulation:
+                    IsimageManipulationMessage = self.cipMessagesConfig.getImageManipulationMessage()
+                    print('The image is manipulated') 
+                    raise ValueError(IsimageManipulationMessage)
             
             documentType = ocrData['DocumentType']
             documentName = ocrData['DocumentName']
