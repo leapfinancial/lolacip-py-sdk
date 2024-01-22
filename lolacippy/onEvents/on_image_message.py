@@ -50,6 +50,7 @@ class OnImageMessage:
                 resultFaceCrop = self.lola_cip_Bussines.faceCrop(session, url)
                 face = resultFaceCrop["results"]["face"]
                 ctx.session_store.set("ocrData", ocrData)
+            
                 ctx.session_store.set("faceCrop", face)
                 ctx.session_store.set("documentUrl", url)
                 
@@ -74,6 +75,7 @@ class OnImageMessage:
                 self.responseScanIdMessage = validate_pol["message"]
                               
                 state["profile"] = profile_pol
+                state["ocrData"] = ocrData
                 ctx.state.set(state)
                 result_scan = {
                     "flow_step": profile["flow_step"],
