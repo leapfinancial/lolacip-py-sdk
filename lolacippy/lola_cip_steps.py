@@ -28,6 +28,7 @@ class LolaCipSteps:
         self.newConversation.initAssitant(session=session,ctx=ctx)
         allowed_documents = self.lola_cip_utils.transformDocumentCountryText()
         bank_name = self.config.get("bank_name")
+        allowed_documents = self.config.get("allowed_documents")
         welcome_message = self.lola_messages.getWelcomeMessage().format(bank_name=bank_name)
         returnMessage = welcome_message + "\n".join(allowed_documents)
         return returnMessage
