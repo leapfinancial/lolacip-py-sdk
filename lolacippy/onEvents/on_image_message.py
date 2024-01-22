@@ -55,7 +55,7 @@ class OnImageMessage:
                 ctx.session_store.set("documentUrl", url)
                 
                 if self.validate_Adrress:
-                    address = ocrData.get("address", None)
+                    address = ocrData.get("Address", None)
                     if address == None:
                         profile["flow_step"] = "ScanId"
                         state["ocrData"] = ocrData
