@@ -18,6 +18,7 @@ class OnNewConversation:
                 #profile init
         profile = self.init_assitant.getInitProfile()
         stateprofile = state["profile"]
+        stateprofile['flow_step'] = profile['flow_step']
         # unir profile y stateprofile
         if stateprofile is not None:
             profile.update(stateprofile)
