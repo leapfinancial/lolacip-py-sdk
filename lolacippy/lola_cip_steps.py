@@ -95,8 +95,37 @@ class LolaCipSteps:
         
         
     def SSNPOL(self,session,ctx:LolaContext,Url:str,msg):
-        pass
-    
+        state = ctx.state.get()
+        profile = state["profile"]
+        extraData = profile['extraDataSSN']
+        requestToken = extraData['requestToken']
+        ItinToken = extraData['ssn_itin_token']
+        eventsData = msg['data']['data']
+        typeEvent = eventsData['type']
+        if typeEvent == "response":
+            statusEvent = eventsData['status']
+            if statusEvent == "success":
+                iproovData = msg['data']['data']['response']
+                iproovLastFrame = iproovData['frame']
+                try:
+                    endpoint = self.serverFrontEnd + "/complete-ssn-itin-signup"
+                    data = {
+                        "ssnItinToken": ItinToken,
+                        "selfieImageB64": iproovLastFrame
+                    }
+                    headers = {'Request-Token': requestToken, 'Content-Type': 'application/json'}
+                    response = requests.post(endpoint, headers=headers, json=data)
+                    response.raise_for_status()
+                    message= self.lola_messages.getNiceSelfieMessage()
+                    result = {
+                        "message" : message
+                        
+                    }
+                    return result
+                except Exception as error:
+                    print(error)
+                    raise ValueError(error)
+                    
     
     
     def default(self,session,ctx:LolaContext,Url:str,msg):
