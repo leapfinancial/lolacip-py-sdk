@@ -2,6 +2,8 @@
 from lolapy import LolaSDK
 from lolapy import LolaContext
 from lolakrakenpy import LolaKrakenServicesManager
+
+from lolacippy.onEvents.util_events import UtilEvents
 from .onEvents.on_image_message import OnImageMessage
 from .onEvents.on_notification import OnNotification
 from .onEvents.on_command import OnCommand
@@ -22,6 +24,7 @@ class LolaCipSteps:
         self.newConversation = OnNewConversation(lola_kraken,config)
         self.events_onCommand = OnCommand(lola_kraken,config)
         self.lola_cip_utils = CipUtils(config)
+        self.util_events = UtilEvents(lola_kraken,config)
         self.config = config
         
     def initAssitantCip(self,session,ctx:LolaContext):
@@ -70,3 +73,8 @@ class LolaCipSteps:
         return result   
     def commandAddress(self,session,ctx:LolaContext,cmd):
         return self.events_onCommand.comandValidateAddress(session=session,ctx=ctx,cmd=cmd)
+    def LolaMessages(self):
+        return self.lola_messages
+    def ReturnConfigPOL(self):
+        status = self.util_events.returnPOLStatus()
+        return status
