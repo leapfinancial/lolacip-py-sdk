@@ -77,3 +77,6 @@ class LolaCipSteps:
     def getConfigPOL(self):
         status = self.util_events.returnPOLStatus()
         return status
+    def getIproovURL(self,session):
+        return self.util_events.returnIprrovLink(session)
+    

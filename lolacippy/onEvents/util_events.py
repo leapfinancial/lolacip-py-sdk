@@ -49,3 +49,7 @@ class UtilEvents:
             raise ValueError(error)
     def returnPOLStatus(self):
         return self.proof_of_life
+    def returnIprrovLink(self,session):
+        url_iproov = self.lola_cip_Bussines.getLinkIproov(session)
+        url_iproov = url_iproov["url"]
+        return url_iproov
