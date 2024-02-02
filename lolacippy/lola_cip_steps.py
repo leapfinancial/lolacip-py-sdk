@@ -74,6 +74,6 @@ class LolaCipSteps:
         return self.events_onCommand.comandValidateAddress(session=session,ctx=ctx,cmd=cmd)
     def LolaMessages(self):
         return self.lola_messages
-    def ReturnConfigPOL(self):
+    def getConfigPOL(self):
         status = self.util_events.returnPOLStatus()
         return status
