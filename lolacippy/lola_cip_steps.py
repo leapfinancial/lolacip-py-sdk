@@ -2,7 +2,6 @@
 from lolapy import LolaSDK
 from lolapy import LolaContext
 from lolakrakenpy import LolaKrakenServicesManager
-
 from lolacippy.onEvents.util_events import UtilEvents
 from .onEvents.on_image_message import OnImageMessage
 from .onEvents.on_notification import OnNotification
