@@ -83,8 +83,9 @@ class LolaCipSteps:
         try:
             response = requests.post(endpoint, headers=headers, json=data)
             response.raise_for_status()
+            message = MessagesConfig.getNiceSelfieMessage()
             result = {
-                "message" : ""
+                "message" : message
                 
             }
             return result
