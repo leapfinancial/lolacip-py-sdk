@@ -84,7 +84,7 @@ class LolaCipSteps:
             response = requests.post(endpoint, headers=headers, json=data)
             response.raise_for_status()
             result = {
-                "message" : "The selfie was sent successfully"
+                "message" : ""
                 
             }
             return result
