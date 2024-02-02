@@ -124,4 +124,4 @@ class Cip:
             return link
         except Exception as error:
             print(error)
-            raise ValueError("Error en el servicio getLink" + error)
+            raise ValueError("Error en el servicio getLink" + str(error))
