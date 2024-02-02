@@ -120,6 +120,7 @@ class Cip:
             print(self.develoment)
             
             link = self.lola_kraken.iproovServices.claimLink(returnUrl=urlReturn,theme=self.theme,develoment=self.develoment)
+            print(link)
             return link
         except Exception as error:
             print(error)
