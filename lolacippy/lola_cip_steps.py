@@ -87,6 +87,7 @@ class LolaCipSteps:
                 "message" : "The selfie was sent successfully"
                 
             }
+            return result
         except Exception as error:
             print(error)
             raise ValueError(error)
