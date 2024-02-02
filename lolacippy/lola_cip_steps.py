@@ -80,10 +80,18 @@ class LolaCipSteps:
             "selfieImageUrl": Url
         }
         headers = {'Request-Token': requestToken, 'Content-Type': 'application/json'}
-        
-        response = requests.post(endpoint, headers=headers, json=data)
-        response.raise_for_status()
-        return response.json()
+        try:
+            response = requests.post(endpoint, headers=headers, json=data)
+            response.raise_for_status()
+            if response.status_code == 200:
+                if response.json()['status'] == "success":
+                    responseMessage = MessagesConfig.getCompleteCipMessage()
+                if response.json()['status'] == "error":
+                    responseMessage = "error al crear la cuenta"
+                return responseMessage
+        except Exception as error:
+            print(error)
+            raise ValueError(error)
         
         
     def SSNPOL(self,session,ctx:LolaContext,Url:str,msg):
