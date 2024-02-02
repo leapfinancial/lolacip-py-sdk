@@ -115,8 +115,12 @@ class Cip:
             with open('iproovTheme.json') as json_file:
                 self.theme = json.load(json_file)
             urlReturn = self.url_return
+            print(urlReturn)
+            print(str(self.theme))
+            print(self.develoment)
+            
             link = self.lola_kraken.iproovServices.claimLink(returnUrl=urlReturn,theme=self.theme,develoment=self.develoment)
             return link
         except Exception as error:
             print(error)
-            raise ValueError("Error en el servicio getLink")
+            raise ValueError("Error en el servicio getLink" + error)
