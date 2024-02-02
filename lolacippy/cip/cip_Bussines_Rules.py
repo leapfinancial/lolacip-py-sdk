@@ -124,4 +124,4 @@ class Cip:
             return link
         except Exception as error:
             print(str(error))
-            raise ValueError(error)
+            raise ValueError(str(error))
