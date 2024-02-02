@@ -123,5 +123,5 @@ class Cip:
             print(link)
             return link
         except Exception as error:
-            print(str(error))
-            raise ValueError(str(error))
+            print(error)
+            raise ValueError("error en el servicio getLinkIproov")
