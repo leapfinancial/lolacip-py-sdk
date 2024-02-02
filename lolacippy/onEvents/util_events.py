@@ -47,3 +47,5 @@ class UtilEvents:
         except Exception as error:
             print(error)
             raise ValueError(error)
+    def returnPOLStatus(self):
+        return self.proof_of_life

@@ -4,7 +4,7 @@ from ..cip.cip_Bussines_Rules import Cip
 from ..cip.cip_Utils import CipUtils
 from ..messages_config import MessagesConfig
 from lolakrakenpy import LolaKrakenServicesManager
-from assitant.onEvents.util_events import UtilEvents
+from .util_events import UtilEvents
 
 class OnImageMessage:
     def __init__(self,lola_kraken:LolaKrakenServicesManager,config):
@@ -28,9 +28,10 @@ class OnImageMessage:
         try:
             state = ctx.state.get()
             profile = state["profile"]
+            validate_document = profile.get("validate_document",True)
             checkImageMessage = self.lola_messages.getCheckImageMessage()
             ctx.messanger.send_text_message(checkImageMessage, blend=True,appendToHistory=True)
-            resultScanId = self.lola_cip_Bussines.scanId(session, url)
+            resultScanId = self.lola_cip_Bussines.scanId(session, url,validate_document)
             if resultScanId:
             
                 ocrData = resultScanId['ocrData']
@@ -44,17 +45,20 @@ class OnImageMessage:
 
                     
                 state["profile"] = profile
+                ctx.state.set(state)
                     
                 resultFaceCrop = self.lola_cip_Bussines.faceCrop(session, url)
                 face = resultFaceCrop["results"]["face"]
                 ctx.session_store.set("ocrData", ocrData)
+            
                 ctx.session_store.set("faceCrop", face)
                 ctx.session_store.set("documentUrl", url)
                 
                 if self.validate_Adrress:
-                    address = ocrData.get("address", None)
+                    address = ocrData.get("Address", None)
                     if address == None:
-                        profile["flow_step"] = "scanId"
+                        profile["flow_step"] = "ScanId"
+                        state["ocrData"] = ocrData
                         profile["request_address"] = True
                         state["profile"] = profile
                         ctx.state.set(state)
@@ -72,6 +76,7 @@ class OnImageMessage:
                 self.responseScanIdMessage = validate_pol["message"]
                               
                 state["profile"] = profile_pol
+                state["ocrData"] = ocrData
                 ctx.state.set(state)
                 result_scan = {
                     "flow_step": profile["flow_step"],
