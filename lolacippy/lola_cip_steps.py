@@ -2,6 +2,7 @@
 from lolapy import LolaSDK
 from lolapy import LolaContext
 from lolakrakenpy import LolaKrakenServicesManager
+import requests
 from lolacippy.onEvents.util_events import UtilEvents
 from .onEvents.on_image_message import OnImageMessage
 from .onEvents.on_notification import OnNotification
@@ -25,6 +26,7 @@ class LolaCipSteps:
         self.lola_cip_utils = CipUtils(config)
         self.util_events = UtilEvents(lola_kraken,config)
         self.config = config
+        self.serverFrontEnd = config.get("SERVER_FRONTEND_URL")
         
     def initAssitantCip(self,session,ctx:LolaContext):
         self.newConversation.initAssitant(session=session,ctx=ctx)
@@ -65,6 +67,30 @@ class LolaCipSteps:
                 except Exception as error:
                     print(error)
                     return str(error)
+    def SSNSelfie(self,session,ctx:LolaContext,Url:str,msg):
+        state = ctx.state.get()
+        profile = state["profile"]
+        extraData = profile['extraDataSSN']
+        requestToken = extraData['requestToken']
+        ItinToken = extraData['ssn_itin_token']
+        
+        endpoint = self.serverFrontEnd + "/complete-ssn-itin-signup"
+        data = {
+            "ssnItinToken": ItinToken,
+            "selfieImageUrl": Url
+        }
+        headers = {'Request-Token': requestToken, 'Content-Type': 'application/json'}
+        
+        response = requests.post(endpoint, headers=headers, json=data)
+        response.raise_for_status()
+        return response.json()
+        
+        
+    def SSNPOL(self,session,ctx:LolaContext,Url:str,msg):
+        pass
+    
+    
+    
     def default(self,session,ctx:LolaContext,Url:str,msg):
         result = {
             "message" : self.lola_messages.getImageNotValidMessage()
@@ -79,4 +105,5 @@ class LolaCipSteps:
         return status
     def getIproovURL(self,session):
         return self.util_events.returnIprrovLink(session)
+    
     
