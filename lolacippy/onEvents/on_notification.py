@@ -44,7 +44,6 @@ class OnNotification:
                         profile["cip_finished"] = True
                         state["profile"] = profile
                         ctx.state.set(state)
-                        ctx.set_timeout(30, 'Restart_Process')
                         if self.webhookActive:
                             try:
                                 sendData ={
