@@ -117,7 +117,7 @@ class Cip:
             urlReturn = self.url_return
             print(urlReturn)
             print(str(self.theme))
-            print(self.develoment)
+            print(str(self.develoment))
             
             link = self.lola_kraken.iproovServices.claimLink(returnUrl=urlReturn,theme=self.theme,develoment=self.develoment)
             print(link)
