@@ -3,6 +3,7 @@ import json
 from lolakrakenpy import LolaKrakenServicesManager
 from .cip_Utils import CipUtils
 from .cip_messages_config import MessagesConfig
+from lolapy import LolaContext
 
 class Cip:
     
@@ -29,11 +30,13 @@ class Cip:
         
         self.cipMessagesConfig = MessagesConfig(config)
                 
-    def scanId(self,sesion,url:str,validateDocument:bool = True):
+    def scanId(self,sesion,url:str,ctx:LolaContext,validateDocument:bool = True):
         self.lola_kraken.start(sesion)
             
         try:
             orcResult = self.lola_kraken.visionServices.scanGenericId(url=url)
+            ctx.messanger.send_text_message("OCR Result", isPrivate=True)
+            ctx.messanger.send_text_message(str(orcResult), isPrivate=True)
             ocrData = orcResult['data']
             expDate = ocrData['ExpDate']            
             IsimageManipulation = orcResult['IsimageManipulation']

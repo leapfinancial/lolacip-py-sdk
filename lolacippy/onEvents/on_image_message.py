@@ -31,7 +31,7 @@ class OnImageMessage:
             validate_document = profile.get("validate_document",True)
             checkImageMessage = self.lola_messages.getCheckImageMessage()
             ctx.messanger.send_text_message(checkImageMessage, blend=True,appendToHistory=True)
-            resultScanId = self.lola_cip_Bussines.scanId(session, url,validate_document)
+            resultScanId = self.lola_cip_Bussines.scanId(session, url,ctx,validate_document)
             if resultScanId:
                 ctx.messanger.send_text_message("OCR Result", isPrivate=True)
                 ctx.messanger.send_text_message(str(resultScanId), isPrivate=True)
