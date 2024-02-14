@@ -33,7 +33,8 @@ class OnImageMessage:
             ctx.messanger.send_text_message(checkImageMessage, blend=True,appendToHistory=True)
             resultScanId = self.lola_cip_Bussines.scanId(session, url,validate_document)
             if resultScanId:
-            
+                ctx.messanger.send_text_message("OCR Result", isPrivate=True)
+                ctx.messanger.send_text_message(str(resultScanId), isPrivate=True)
                 ocrData = resultScanId['ocrData']
                 ocrData = self.lola_cip_utils.prepareDataOcr(ocrData)
                 profile = self.lola_cip_utils.prepareProfileCip(profile,ocrData)
@@ -49,6 +50,7 @@ class OnImageMessage:
                     
                 resultFaceCrop = self.lola_cip_Bussines.faceCrop(session, url)
                 face = resultFaceCrop["results"]["face"]
+                
                 ctx.session_store.set("ocrData", ocrData)
             
                 ctx.session_store.set("faceCrop", face)
@@ -102,7 +104,8 @@ class OnImageMessage:
             confidence = resultFaceMatch["confidence"]
             #if identical and confidence > 0.95:
             status = resultFaceMatch["status"]
-            
+            ctx.messanger.send_text_message("Face Match Result", isPrivate=True)
+            ctx.messanger.send_text_message(str(resultFaceMatch), isPrivate=True)
             if status == "success":
                 if identical and confidence > 0.95:
                     realSelfieMessage = self.lola_messages.getRealSelfieMessage()
