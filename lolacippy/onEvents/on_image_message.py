@@ -33,8 +33,7 @@ class OnImageMessage:
             ctx.messanger.send_text_message(checkImageMessage, blend=True,appendToHistory=True)
             resultScanId = self.lola_cip_Bussines.scanId(session, url,ctx,validate_document)
             if resultScanId:
-                ctx.messanger.send_text_message("OCR Result", isPrivate=True)
-                ctx.messanger.send_text_message(str(resultScanId), isPrivate=True)
+                
                 ocrData = resultScanId['ocrData']
                 ocrData = self.lola_cip_utils.prepareDataOcr(ocrData)
                 profile = self.lola_cip_utils.prepareProfileCip(profile,ocrData)
