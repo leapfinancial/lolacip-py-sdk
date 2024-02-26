@@ -35,8 +35,8 @@ class Cip:
             
         try:
             orcResult = self.lola_kraken.visionServices.scanGenericId(url=url)
-            ctx.messanger.send_text_message("OCR Result", isPrivate=True)
-            ctx.messanger.send_text_message(str(orcResult), isPrivate=True)
+            #ctx.messanger.send_text_message("OCR Result", isPrivate=True)
+            #ctx.messanger.send_text_message(str(orcResult), isPrivate=True)
             ocrData = orcResult['data']
             expDate = ocrData['ExpDate']            
             IsimageManipulation = orcResult['IsimageManipulation']
