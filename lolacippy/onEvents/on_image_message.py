@@ -103,8 +103,8 @@ class OnImageMessage:
             confidence = resultFaceMatch["confidence"]
             #if identical and confidence > 0.95:
             status = resultFaceMatch["status"]
-            ctx.messanger.send_text_message("Face Match Result", isPrivate=True)
-            ctx.messanger.send_text_message(str(resultFaceMatch), isPrivate=True)
+            #ctx.messanger.send_text_message("Face Match Result", isPrivate=True)
+            #ctx.messanger.send_text_message(str(resultFaceMatch), isPrivate=True)
             if status == "success":
                 if identical and confidence > 0.95:
                     realSelfieMessage = self.lola_messages.getRealSelfieMessage()
