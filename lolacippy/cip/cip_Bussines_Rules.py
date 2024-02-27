@@ -41,14 +41,16 @@ class Cip:
             expDate = ocrData['ExpDate']            
             IsimageManipulation = orcResult['IsimageManipulation']
             IsValidID = orcResult['IsValidID']
-            
+            print(f'oCRData: {ocrData}')
             documentValidate = self.cipUtils.documentExpirate(expDate)
             if validateDocument:
                 if not IsValidID:
+                    print(f'IsValidID: {IsValidID}')
                     isNotValidDocumentMessage = self.cipMessagesConfig.getImageNotValidMessage()
                     print('The document is not valid') 
                     raise ValueError(isNotValidDocumentMessage)
                 if IsimageManipulation:
+                    print(f'IsimageManipulation: {IsimageManipulation}')
                     IsimageManipulationMessage = self.cipMessagesConfig.getImageManipulationMessage()
                     print('The image is manipulated') 
                     raise ValueError(IsimageManipulationMessage)
