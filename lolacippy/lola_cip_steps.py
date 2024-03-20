@@ -70,7 +70,8 @@ class LolaCipSteps:
     def SSNSelfie(self,session,ctx:LolaContext,Url:str,msg):
         state = ctx.state.get()
         profile = state["profile"]
-        extraData = profile['extraDataSSN']
+        exrtraDataSSN = profile['extraDataSSN']
+        extraData = exrtraDataSSN['extradata']
         requestToken = extraData['requestToken']
         ItinToken = extraData['ssn_itin_token']
         
