@@ -41,7 +41,7 @@ class OnImageMessage:
                     
                 checkImageWaitMessage = self.lola_messages.getCheckImageWaitMessage()
                 userFirstName = profile["firstName"]
-                ctx.messanger.send_text_message(f"Hey there {userFirstName}! {checkImageWaitMessage}", blend=True,appendToHistory=True)
+                ctx.messanger.send_text_message(f"{checkImageWaitMessage}", blend=True,appendToHistory=True)
 
                     
                 state["profile"] = profile
