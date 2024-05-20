@@ -28,7 +28,10 @@ class UtilEvents:
             if polActive is not None:
                 if isinstance(polActive, str):
                     print("is string")                
-                    polActive = polActive.lower() in ("yes", "true", "t", "1")
+                    if polActive.lower() == 'true':
+                        polActive = True
+                    else:
+                        polActive = False    
                 self.proof_of_life = polActive
             ctx.state.set(state)
             if self.proof_of_life:
