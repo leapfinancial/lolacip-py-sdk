@@ -28,7 +28,9 @@ class UtilEvents:
             print(polActive)
             if polActive is not None:                               
                 ## polActive string to boolean
-                polActive = polActive.lower() == 'true'    
+                polActive = polActive.lower() == 'true'
+                print("polActive bollean")
+                print(polActive)    
                 self.proof_of_life = polActive
             ctx.state.set(state)
             if self.proof_of_life:
