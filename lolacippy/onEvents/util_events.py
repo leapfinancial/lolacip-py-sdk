@@ -24,14 +24,13 @@ class UtilEvents:
             profile["flow_step"] = "ProofOfLife"
             state["profile"] = profile
             polActive = state.get("polActive",None)
+            print("polActive")
             print(polActive)
-            if polActive is not None:
-                if isinstance(polActive, str):
-                    print("is string")                
-                    if polActive.lower() == 'true':
-                        polActive = True
-                    else:
-                        polActive = False    
+            if polActive is not None:                               
+                if polActive.lower() == 'true':
+                    polActive = True
+                else:
+                    polActive = False    
                 self.proof_of_life = polActive
             ctx.state.set(state)
             if self.proof_of_life:
