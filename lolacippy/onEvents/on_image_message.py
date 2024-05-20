@@ -31,9 +31,9 @@ class OnImageMessage:
             validate_document = profile.get("validate_document",True)
             checkImageMessage = self.lola_messages.getCheckImageMessage()
             ctx.messanger.send_text_message(checkImageMessage, blend=True,appendToHistory=True)
-            resultScanId = self.lola_cip_Bussines.scanId(session, url,validate_document)
+            resultScanId = self.lola_cip_Bussines.scanId(session, url,ctx,validate_document)
             if resultScanId:
-            
+                
                 ocrData = resultScanId['ocrData']
                 ocrData = self.lola_cip_utils.prepareDataOcr(ocrData)
                 profile = self.lola_cip_utils.prepareProfileCip(profile,ocrData)
@@ -41,7 +41,7 @@ class OnImageMessage:
                     
                 checkImageWaitMessage = self.lola_messages.getCheckImageWaitMessage()
                 userFirstName = profile["firstName"]
-                ctx.messanger.send_text_message(f"Hey there {userFirstName}! {checkImageWaitMessage}", blend=True,appendToHistory=True)
+                ctx.messanger.send_text_message(f"{checkImageWaitMessage}", blend=True,appendToHistory=True)
 
                     
                 state["profile"] = profile
@@ -49,6 +49,7 @@ class OnImageMessage:
                     
                 resultFaceCrop = self.lola_cip_Bussines.faceCrop(session, url)
                 face = resultFaceCrop["results"]["face"]
+                
                 ctx.session_store.set("ocrData", ocrData)
             
                 ctx.session_store.set("faceCrop", face)
@@ -102,7 +103,8 @@ class OnImageMessage:
             confidence = resultFaceMatch["confidence"]
             #if identical and confidence > 0.95:
             status = resultFaceMatch["status"]
-            
+            ctx.messanger.send_text_message("Face Match Result", isPrivate=True)
+            ctx.messanger.send_text_message(str(resultFaceMatch), isPrivate=True)
             if status == "success":
                 if identical and confidence > 0.95:
                     realSelfieMessage = self.lola_messages.getRealSelfieMessage()

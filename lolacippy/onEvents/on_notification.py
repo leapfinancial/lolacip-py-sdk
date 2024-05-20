@@ -28,6 +28,8 @@ class OnNotification:
             faceMatch = self.lola_cip_Bussines.faceMatch(session,frameBase64,None, facecrop)
             faceMatchIdentical = faceMatch["identical"]
             faceMatchConfidence = faceMatch["confidence"]
+            ctx.messanger.send_text_message("Face Match Result", isPrivate=True)
+            ctx.messanger.send_text_message(str(faceMatch), isPrivate=True)
             faceMatchStatus = faceMatch["status"]
             imageCrop = ctx.session_store.get("faceCrop")
             message = ""

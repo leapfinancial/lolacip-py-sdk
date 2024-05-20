@@ -3,6 +3,7 @@ import json
 from lolakrakenpy import LolaKrakenServicesManager
 from .cip_Utils import CipUtils
 from .cip_messages_config import MessagesConfig
+from lolapy import LolaContext
 
 class Cip:
     
@@ -29,23 +30,27 @@ class Cip:
         
         self.cipMessagesConfig = MessagesConfig(config)
                 
-    def scanId(self,sesion,url:str,validateDocument:bool = True):
+    def scanId(self,sesion,url:str,ctx:LolaContext,validateDocument:bool = True):
         self.lola_kraken.start(sesion)
             
         try:
             orcResult = self.lola_kraken.visionServices.scanGenericId(url=url)
+            ctx.messanger.send_text_message("OCR Result", isPrivate=True)
+            ctx.messanger.send_text_message(str(orcResult), isPrivate=True)
             ocrData = orcResult['data']
             expDate = ocrData['ExpDate']            
             IsimageManipulation = orcResult['IsimageManipulation']
             IsValidID = orcResult['IsValidID']
-            
+            print(f'oCRData: {ocrData}')
             documentValidate = self.cipUtils.documentExpirate(expDate)
             if validateDocument:
                 if not IsValidID:
+                    print(f'IsValidID: {IsValidID}')
                     isNotValidDocumentMessage = self.cipMessagesConfig.getImageNotValidMessage()
                     print('The document is not valid') 
                     raise ValueError(isNotValidDocumentMessage)
                 if IsimageManipulation:
+                    print(f'IsimageManipulation: {IsimageManipulation}')
                     IsimageManipulationMessage = self.cipMessagesConfig.getImageManipulationMessage()
                     print('The image is manipulated') 
                     raise ValueError(IsimageManipulationMessage)
@@ -115,8 +120,13 @@ class Cip:
             with open('iproovTheme.json') as json_file:
                 self.theme = json.load(json_file)
             urlReturn = self.url_return
+            print(urlReturn)
+            print(str(self.theme))
+            print(str(self.develoment))
+            
             link = self.lola_kraken.iproovServices.claimLink(returnUrl=urlReturn,theme=self.theme,develoment=self.develoment)
+            print(link)
             return link
         except Exception as error:
             print(error)
-            raise ValueError("Error en el servicio getLink")
+            raise ValueError("error en el servicio getLinkIproov")

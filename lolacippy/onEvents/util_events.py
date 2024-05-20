@@ -28,9 +28,10 @@ class UtilEvents:
             print(polActive)
             if polActive is not None:                               
                 ## polActive string to boolean
-                polActive = polActive.lower() == 'true'
-                print("polActive boolean")
-                print(polActive)    
+                if isinstance(polActive, str):
+                    polActive = polActive.lower() == 'true'
+                    print("polActive boolean")
+                    print(polActive)    
                 self.proof_of_life = polActive
             ctx.state.set(state)
             if self.proof_of_life:
@@ -58,3 +59,7 @@ class UtilEvents:
             raise ValueError(error)
     def returnPOLStatus(self):
         return self.proof_of_life
+    def returnIprrovLink(self,session):
+        url_iproov = self.lola_cip_Bussines.getLinkIproov(session)
+        url_iproov = url_iproov["url"]
+        return url_iproov
