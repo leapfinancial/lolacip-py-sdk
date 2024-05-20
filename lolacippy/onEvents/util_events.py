@@ -23,6 +23,15 @@ class UtilEvents:
             message = self.responseScanIdMessage
             profile["flow_step"] = "ProofOfLife"
             state["profile"] = profile
+            polActive = state.get("polActive",None)
+            print("polActive")
+            print(polActive)
+            if polActive is not None:                               
+                ## polActive string to boolean
+                polActive = polActive.lower() == 'true'
+                print("polActive boolean")
+                print(polActive)    
+                self.proof_of_life = polActive
             ctx.state.set(state)
             if self.proof_of_life:
                 profile["flow_step"] = "ProofOfLife"
