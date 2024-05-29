@@ -114,7 +114,7 @@ class Cip:
         except Exception as error:
             print(error)
             raise ValueError(error)         
-    def getLinkIproov (self,session):
+    def getLinkIproov (self,session,language:str="en"):
         try:
             self.theme = {}
             with open('iproovTheme.json') as json_file:
@@ -124,7 +124,7 @@ class Cip:
             print(str(self.theme))
             print(str(self.develoment))
             
-            link = self.lola_kraken.iproovServices.claimLink(returnUrl=urlReturn,theme=self.theme,develoment=self.develoment)
+            link = self.lola_kraken.iproovServices.claimLink(returnUrl=urlReturn,theme=self.theme,develoment=self.develoment,language=language)
             print(link)
             return link
         except Exception as error:

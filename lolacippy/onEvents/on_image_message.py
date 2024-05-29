@@ -24,7 +24,7 @@ class OnImageMessage:
         self.faceMatchConfidence = float(str_faceMatchConfidence)
         self.responseScanIdMessage = ""
         
-    def onboardingScanId(self,session,ctx:LolaContext,url):
+    def onboardingScanId(self,session,ctx:LolaContext,url,language:str="en"):
         try:
             state = ctx.state.get()
             profile = state["profile"]
@@ -72,7 +72,7 @@ class OnImageMessage:
                     else:
                         profile["address"] = address
                 
-                validate_pol = self.utilEvents.messageAndFlowStepPOL(session,ctx)
+                validate_pol = self.utilEvents.messageAndFlowStepPOL(session,ctx,language)
                 profile_pol = validate_pol.get("profile")                   
                 self.responseScanIdMessage = validate_pol["message"]
                               
