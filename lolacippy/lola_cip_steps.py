@@ -42,7 +42,7 @@ class LolaCipSteps:
     def scanId(self,session,ctx:LolaContext,Url:str,msg,language:str="en"):
         resulScanId = self.events_onImageMessage.onboardingScanId(session=session,ctx=ctx,url=Url,language=language)
         return resulScanId
-    def selfie(self,session,ctx:LolaContext,Url:str,msg):
+    def selfie(self,session,ctx:LolaContext,Url:str,msg,language:str="en"):
         resultSelfie = self.events_onImageMessage.onboardingScanSelfie(session=session,ctx=ctx,url=Url)
         completeCipMessage = self.lola_messages.getCompleteCipMessage()
         resultProccesSelfie = {
