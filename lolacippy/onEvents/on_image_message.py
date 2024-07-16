@@ -32,21 +32,24 @@ class OnImageMessage:
             checkImageMessage = self.lola_messages.getCheckImageMessage()
             ctx.messanger.send_text_message(checkImageMessage, blend=True,appendToHistory=True)
             resultScanId = self.lola_cip_Bussines.scanId(session, url,ctx,validate_document)
-            if resultScanId:
+        except Exception as error:
+            print(error)
+            raise ValueError("error when detecting the document, make sure that it is a real document")
+        if resultScanId:
                 
-                ocrData = resultScanId['ocrData']
-                ocrData = self.lola_cip_utils.prepareDataOcr(ocrData)
-                profile = self.lola_cip_utils.prepareProfileCip(profile,ocrData)
+            ocrData = resultScanId['ocrData']
+            ocrData = self.lola_cip_utils.prepareDataOcr(ocrData)
+            profile = self.lola_cip_utils.prepareProfileCip(profile,ocrData)
                 
                     
-                checkImageWaitMessage = self.lola_messages.getCheckImageWaitMessage()
-                userFirstName = profile["firstName"]
-                ctx.messanger.send_text_message(f"{checkImageWaitMessage}", blend=True,appendToHistory=True)
+            checkImageWaitMessage = self.lola_messages.getCheckImageWaitMessage()
+            userFirstName = profile["firstName"]
+            ctx.messanger.send_text_message(f"{checkImageWaitMessage}", blend=True,appendToHistory=True)
 
                     
-                state["profile"] = profile
-                ctx.state.set(state)
-                    
+            state["profile"] = profile
+            ctx.state.set(state)
+            try:        
                 resultFaceCrop = self.lola_cip_Bussines.faceCrop(session, url)
                 face = resultFaceCrop["results"]["face"]
                 
@@ -54,39 +57,39 @@ class OnImageMessage:
             
                 ctx.session_store.set("faceCrop", face)
                 ctx.session_store.set("documentUrl", url)
+            except Exception as error:
+                print(error)
+                raise ValueError("error when detecting in the document, remember that the documents must be sent horizontally.") 
+            if self.validate_Adrress:
+                address = ocrData.get("Address", None)
+                if address == None:
+                    profile["flow_step"] = "ScanId"
+                    state["ocrData"] = ocrData
+                    profile["request_address"] = True
+                    state["profile"] = profile
+                    ctx.state.set(state)
+                    messageRequestAddress = self.lola_messages.getRequestAddressMessage()
+                    result_scan = {
+                        "flow_step": profile["flow_step"],
+                        "message" : messageRequestAddress
+                    }
+                    return result_scan
+                else:
+                    profile["address"] = address
                 
-                if self.validate_Adrress:
-                    address = ocrData.get("Address", None)
-                    if address == None:
-                        profile["flow_step"] = "ScanId"
-                        state["ocrData"] = ocrData
-                        profile["request_address"] = True
-                        state["profile"] = profile
-                        ctx.state.set(state)
-                        messageRequestAddress = self.lola_messages.getRequestAddressMessage()
-                        result_scan = {
-                            "flow_step": profile["flow_step"],
-                            "message" : messageRequestAddress
-                        }
-                        return result_scan
-                    else:
-                        profile["address"] = address
-                
-                validate_pol = self.utilEvents.messageAndFlowStepPOL(session,ctx,language)
-                profile_pol = validate_pol.get("profile")                   
-                self.responseScanIdMessage = validate_pol["message"]
+            validate_pol = self.utilEvents.messageAndFlowStepPOL(session,ctx,language)
+            profile_pol = validate_pol.get("profile")                   
+            self.responseScanIdMessage = validate_pol["message"]
                               
-                state["profile"] = profile_pol
-                state["ocrData"] = ocrData
-                ctx.state.set(state)
-                result_scan = {
+            state["profile"] = profile_pol
+            state["ocrData"] = ocrData
+            ctx.state.set(state)
+            result_scan = {
                     "flow_step": profile["flow_step"],
                     "message" : self.responseScanIdMessage
-                }
-                return result_scan 
-        except Exception as error:
-            print(error)
-            raise ValueError(error)
+            }
+            return result_scan 
+        
         
     def onboardingScanSelfie(self,session,ctx:LolaContext,url):
         try:
