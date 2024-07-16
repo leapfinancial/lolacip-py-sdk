@@ -34,7 +34,7 @@ class OnImageMessage:
             resultScanId = self.lola_cip_Bussines.scanId(session, url,ctx,validate_document)
         except Exception as error:
             print(error)
-            raise ValueError("error when detecting the document, make sure that it is a real document")
+            raise ValueError("I could not process your image. Please send me another one")
         if resultScanId:
                 
             ocrData = resultScanId['ocrData']
@@ -59,7 +59,7 @@ class OnImageMessage:
                 ctx.session_store.set("documentUrl", url)
             except Exception as error:
                 print(error)
-                raise ValueError("error when detecting in the document, remember that the documents must be sent horizontally.") 
+                raise ValueError("I could not process your image. Please send me another one.\n Remember that the documents must be sent horizontally.") 
             if self.validate_Adrress:
                 address = ocrData.get("Address", None)
                 if address == None:
