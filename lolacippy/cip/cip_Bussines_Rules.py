@@ -4,6 +4,7 @@ from lolakrakenpy import LolaKrakenServicesManager
 from .cip_Utils import CipUtils
 from .cip_messages_config import MessagesConfig
 from lolapy import LolaContext
+from time import sleep
 
 class Cip:
     
@@ -122,11 +123,20 @@ class Cip:
             urlReturn = self.url_return
             print(urlReturn)
             print(str(self.theme))
-            print(str(self.develoment))
-            
-            link = self.lola_kraken.iproovServices.claimLink(returnUrl=urlReturn,theme=self.theme,develoment=self.develoment,language=language)
-            print(link)
-            return link
+            print(str(self.develoment))            
+            retries = 0
+            while retries < 3:
+                try:                    
+                    link = self.lola_kraken.iproovServices.claimLink(returnUrl=urlReturn, theme=self.theme, develoment=self.develoment, language=language)
+                    print(link)
+                    break
+                except Exception as e:
+                    retries += 1
+                    sleep(1+(retries*2))                    
+            if link != None:
+                return link
+            else:
+                raise ValueError("error en el servicio getLinkIproov")
         except Exception as error:
             print(error)
             raise ValueError("error en el servicio getLinkIproov")
