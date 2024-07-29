@@ -27,6 +27,7 @@ class LolaCipSteps:
         self.util_events = UtilEvents(lola_kraken,config)
         self.config = config
         self.serverFrontEnd = config.get("SERVER_FRONTEND_URL")
+        self.utilEvents = UtilEvents(lola_kraken,config)
         
     def initAssitantCip(self,session,ctx:LolaContext):
         self.newConversation.initAssitant(session=session,ctx=ctx)
@@ -65,8 +66,13 @@ class LolaCipSteps:
                     return messageFacematch
                     
                 except Exception as error:
-                    print(error)
-                    return str(error)
+                    validate_pol = self.utilEvents.messageAndFlowStepPOL(session,ctx,language)
+                    profile_pol = validate_pol.get("profile")                   
+                    self.responseScanIdMessage = validate_pol["message"]
+                    result_scan = {
+                        "message" : self.responseScanIdMessage
+                    }
+                    return result_scan
     def SSNSelfie(self,session,ctx:LolaContext,Url:str,msg,language:str="en"):
         state = ctx.state.get()
         profile = state["profile"]
