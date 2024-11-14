@@ -27,6 +27,7 @@ class LolaCipSteps:
         self.util_events = UtilEvents(lola_kraken,config)
         self.config = config
         self.serverFrontEnd = config.get("SERVER_FRONTEND_URL")
+        self.utilEvents = UtilEvents(lola_kraken,config)
         
     def initAssitantCip(self,session,ctx:LolaContext):
         self.newConversation.initAssitant(session=session,ctx=ctx)
@@ -39,10 +40,10 @@ class LolaCipSteps:
         
         
         
-    def scanId(self,session,ctx:LolaContext,Url:str,msg):
-        resulScanId = self.events_onImageMessage.onboardingScanId(session=session,ctx=ctx,url=Url)
+    def scanId(self,session,ctx:LolaContext,Url:str,msg,language:str="en"):
+        resulScanId = self.events_onImageMessage.onboardingScanId(session=session,ctx=ctx,url=Url,language=language)
         return resulScanId
-    def selfie(self,session,ctx:LolaContext,Url:str,msg):
+    def selfie(self,session,ctx:LolaContext,Url:str,msg,language:str="en"):
         resultSelfie = self.events_onImageMessage.onboardingScanSelfie(session=session,ctx=ctx,url=Url)
         completeCipMessage = self.lola_messages.getCompleteCipMessage()
         resultProccesSelfie = {
@@ -51,7 +52,7 @@ class LolaCipSteps:
         }
         
         return resultProccesSelfie
-    def PooLife(self,session,ctx:LolaContext,Url:str,msg):
+    def PooLife(self,session,ctx:LolaContext,Url:str,msg,language:str="en"):
         eventsData = msg['data']['data']
         typeEvent = eventsData['type']
         if typeEvent == "response":
@@ -65,9 +66,14 @@ class LolaCipSteps:
                     return messageFacematch
                     
                 except Exception as error:
-                    print(error)
-                    return str(error)
-    def SSNSelfie(self,session,ctx:LolaContext,Url:str,msg):
+                    validate_pol = self.utilEvents.messageAndFlowStepPOL(session,ctx,language)
+                    profile_pol = validate_pol.get("profile")                   
+                    self.responseScanIdMessage = validate_pol["message"]
+                    result_scan = {
+                        "message" : self.responseScanIdMessage
+                    }
+                    return result_scan
+    def SSNSelfie(self,session,ctx:LolaContext,Url:str,msg,language:str="en"):
         state = ctx.state.get()
         profile = state["profile"]
         exrtraDataSSN = profile['extraDataSSN']
@@ -95,7 +101,7 @@ class LolaCipSteps:
             raise ValueError(error)
         
         
-    def SSNPOL(self,session,ctx:LolaContext,Url:str,msg):
+    def SSNPOL(self,session,ctx:LolaContext,Url:str,msg,language:str="en"):
         state = ctx.state.get()
         profile = state["profile"]
         extraData = profile['extraDataSSN']
@@ -129,7 +135,7 @@ class LolaCipSteps:
                     
     
     
-    def default(self,session,ctx:LolaContext,Url:str,msg):
+    def default(self,session,ctx:LolaContext,Url:str,msg,language:str="en"):
         result = {
             "message" : self.lola_messages.getImageNotValidMessage()
         }

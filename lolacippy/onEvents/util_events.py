@@ -16,7 +16,7 @@ class UtilEvents:
         self.lola_messages = MessagesConfig(config)
         self.responseScanIdMessage = ""
         
-    def messageAndFlowStepPOL(self,session,ctx:LolaContext):
+    def messageAndFlowStepPOL(self,session,ctx:LolaContext,language:str="en"):
         try:
             state = ctx.state.get()
             profile = state["profile"]
@@ -37,7 +37,7 @@ class UtilEvents:
             if self.proof_of_life:
                 profile["flow_step"] = "ProofOfLife"
                 profile["document_uploaded"] = True
-                url_iproov = self.lola_cip_Bussines.getLinkIproov(session)
+                url_iproov = self.lola_cip_Bussines.getLinkIproov(session,language)
                 url_iproov = url_iproov["url"]
                 messageIproov = self.lola_messages.getMessageProofOfLife()
                 messageIproov = messageIproov.replace('$link',url_iproov)
